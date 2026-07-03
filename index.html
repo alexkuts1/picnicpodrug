@@ -75,9 +75,44 @@
   header.nav.scrolled nav.links a:hover{color:var(--wist-deep)}
   nav.links a.cta{border:1px solid rgba(255,255,255,.6);padding:10px 24px;border-radius:100px}
   header.nav.scrolled nav.links a.cta{border-color:var(--gold);color:var(--wist-deep)}
-  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-  .burger span{width:26px;height:1.5px;background:#fff;transition:.3s}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;position:relative;z-index:80;padding:4px}
+  .burger span{width:26px;height:1.5px;background:#fff;transition:.35s cubic-bezier(.6,0,.2,1);transform-origin:center}
   header.nav.scrolled .burger span{background:var(--ink)}
+  .burger.active span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .burger.active span:nth-child(2){opacity:0}
+  .burger.active span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+  .burger.active span{background:#f7f2ea}
+  /* mobile menu overlay */
+  .mobile-menu{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;text-align:center;padding:96px 32px 44px;
+    background:radial-gradient(125% 90% at 50% 0%,#4c3b5c 0%,#2f2339 68%);
+    opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s ease}
+  .mobile-menu.open{opacity:1;visibility:visible}
+  .mm-inner{width:100%;max-width:420px}
+  .mm-kicker{font-size:.64rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-lt);opacity:0;transform:translateY(12px);transition:.5s .06s}
+  .mobile-menu.open .mm-kicker{opacity:1;transform:none}
+  .mm-links{display:flex;flex-direction:column;gap:2px;margin:30px 0 6px}
+  .mm-links a{font-family:'Cormorant Garamond',serif;font-size:2.35rem;color:#f7f2ea;padding:7px 0;transition:color .3s,transform .5s,opacity .5s;letter-spacing:.01em;opacity:0;transform:translateY(16px)}
+  .mm-links a:hover,.mm-links a:active{color:var(--gold-lt)}
+  .mobile-menu.open .mm-links a{opacity:1;transform:none}
+  .mobile-menu.open .mm-links a:nth-child(1){transition-delay:.10s}
+  .mobile-menu.open .mm-links a:nth-child(2){transition-delay:.16s}
+  .mobile-menu.open .mm-links a:nth-child(3){transition-delay:.22s}
+  .mobile-menu.open .mm-links a:nth-child(4){transition-delay:.28s}
+  .mobile-menu.open .mm-links a:nth-child(5){transition-delay:.34s}
+  .mm-rule{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:22px auto;opacity:0;transition:.5s .4s}
+  .mobile-menu.open .mm-rule{opacity:1}
+  .mm-cta{margin:2px auto 0;opacity:0;transform:translateY(12px);transition:.5s .44s}
+  .mobile-menu.open .mm-cta{opacity:1;transform:none}
+  .mm-social{display:flex;gap:14px;justify-content:center;margin:30px 0 22px;opacity:0;transition:.5s .5s}
+  .mobile-menu.open .mm-social{opacity:1}
+  .mm-social a{width:46px;height:46px;border:1px solid rgba(216,192,138,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#f7f2ea;transition:.35s}
+  .mm-social a:hover,.mm-social a:active{background:var(--gold);border-color:var(--gold);color:var(--plum-deep)}
+  .mm-social svg{width:20px;height:20px}
+  .mm-sign{display:block;font-size:1.8rem;color:var(--gold-lt);opacity:0;transition:.6s .56s}
+  .mobile-menu.open .mm-sign{opacity:1}
+  body.menu-open{overflow:hidden}
+  body.menu-open .logo{color:#fff!important}
+  body.menu-open .logo small{color:var(--gold-lt)!important}
 
   /* ---------- hero ---------- */
   .hero{min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden}
@@ -275,7 +310,9 @@
     .city-row{gap:40px}
     /* hero mobile */
     .hero{align-items:center}
-    .hero .veil{background:linear-gradient(180deg,rgba(24,16,32,.5) 0%,rgba(23,15,31,.62) 45%,rgba(20,13,28,.9) 100%)}
+    .hero .veil{background:linear-gradient(180deg,rgba(24,16,32,.6) 0%,rgba(23,15,31,.66) 48%,rgba(20,13,28,.94) 100%)}
+    .hero .wrap{text-shadow:0 2px 22px rgba(15,10,22,.8)}
+    .hero .kicker{color:#e4d3a6}
     .hero .wrap{padding:104px 24px 52px}
     .hero h1{font-size:2.6rem;letter-spacing:0}
     .hero .script{font-size:1.65rem}
@@ -303,6 +340,27 @@
   </nav>
   <div class="burger" id="burger"><span></span><span></span><span></span></div>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-inner">
+    <div class="mm-kicker">Berlin · Wien · Łódź</div>
+    <nav class="mm-links">
+      <a href="#about">Про нас</a>
+      <a href="#format">Формат</a>
+      <a href="#themes">Теми</a>
+      <a href="#event">Найближчий</a>
+      <a href="#faq">Питання</a>
+    </nav>
+    <div class="mm-rule"></div>
+    <a href="#join" class="btn gold mm-cta">Приєднатися</a>
+    <div class="mm-social">
+      <a href="https://www.instagram.com/picnicpodrug/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://t.me/+yKD3SUXceFwyOTE6" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3L18.6 20c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-4.9L18 6.4c.4-.3-.1-.5-.6-.2L7 12.7l-4.7-1.5c-1-.3-1-1 .2-1.5l18.4-7.1c.8-.3 1.5.2 1 1.7z"/></svg></a>
+    </div>
+    <span class="script mm-sign">Пікнік Подруг</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -599,12 +657,19 @@
   const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>60);
   onScroll();window.addEventListener('scroll',onScroll,{passive:true});
 
-  document.getElementById('burger').addEventListener('click',()=>{
-    const l=document.querySelector('nav.links');
-    if(l.style.display==='flex'){l.style.display='';return;}
-    l.style.cssText='display:flex;position:fixed;top:58px;right:22px;flex-direction:column;background:var(--porcelain);padding:20px 26px;border-radius:6px;box-shadow:0 24px 54px -24px var(--shadow);gap:16px;z-index:70';
-    l.querySelectorAll('a').forEach(a=>a.style.color='var(--ink)');
-  });
+  (function(){
+    const burger=document.getElementById('burger');
+    const mm=document.getElementById('mobileMenu');
+    function toggle(open){
+      const o=(open===undefined)?!mm.classList.contains('open'):open;
+      mm.classList.toggle('open',o);
+      burger.classList.toggle('active',o);
+      document.body.classList.toggle('menu-open',o);
+    }
+    burger.addEventListener('click',()=>toggle());
+    mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false);});
+  })();
 
   document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{
     const it=q.parentElement,a=it.querySelector('.faq-a'),open=it.classList.contains('open');
